@@ -14,6 +14,20 @@ type NetworkInterface struct {
 	Type       string   `json:"type"`
 }
 
+type Software struct {
+	Name        string `json:"name"`
+	Version     string `json:"version"`
+	Publisher   string `json:"publisher"`
+	InstalledAt string `json:"installed_at"`
+}
+
+type User struct {
+	Username    string `json:"username"`
+	DisplayName string `json:"display_name"`
+	IsAdmin     bool   `json:"is_admin"`
+	LastLogin   string `json:"last_login"`
+}
+
 type SystemInfo struct {
 	Hostname          string             `json:"hostname"`
 	IPAddresses       []string           `json:"ip_addresses"`
@@ -21,6 +35,8 @@ type SystemInfo struct {
 	OperatingSystem   string             `json:"operating_system"`
 	Architecture      string             `json:"architecture"`
 	NetworkInterfaces []NetworkInterface `json:"network_interfaces"`
+	Software          []Software         `json:"software"`
+	Users             []User             `json:"users"`
 }
 
 func Collect() SystemInfo {
@@ -36,6 +52,8 @@ func Collect() SystemInfo {
 		OperatingSystem:   runtime.GOOS,
 		Architecture:      runtime.GOARCH,
 		NetworkInterfaces: collectNetworkInterfaces(),
+		Software:          collectSoftware(),
+		Users:             collectUsers(),
 	}
 }
 
